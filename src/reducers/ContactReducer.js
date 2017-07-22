@@ -5,13 +5,9 @@ export default function ContactReducer(state = initialState.Contacts, action) {
   switch (action.type) {
     case types.LOAD_CONTACTS_REQUEST:
       return Object.assign({}, state, {loading:true});
-
     case types.LOAD_CONTACTS_SUCCESS:
       return Object.assign({}, state, {loading:false,Contacts:action.contacts,id:action.id});
-      
     case types.UPDATE_CONTACT_SUCCESS:
-      // return Object.assign({},state,{Contacts:[...state.Contacts.filter(contact => contact.id !== action.contact.id),
-      //   Object.assign({}, action.contact)]});
         return Object.assign({},state,{id:action.id,Contacts:state.Contacts.map((item,index)=>{
           if(item.id === action.contact.id){
             return Object.assign({},item,action.contact);
@@ -20,11 +16,6 @@ export default function ContactReducer(state = initialState.Contacts, action) {
         })});
       case types.CREATE_CONTACT_SUCCESS:
         return Object.assign({},state,{id:action.id,Contacts:[...state.Contacts,action.contact].sort((a,b)=>{a.firstName.toLowerCase() < b.firstName.toLowerCase()?-1:1;})});
-    // case types.LOAD_CONTACTS_ERROR:
-    //   return [
-    //     ...state.filter(course => course.id !== action.course.id),
-    //     Object.assign({}, action.course)
-    //   ];
 
     default:
       return state;

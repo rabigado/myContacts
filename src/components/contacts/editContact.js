@@ -48,6 +48,7 @@ class EditContactModal extends React.Component{
     handleSubmit(){
         if(this.state.valid)    
             this.props.onsubmitHandler(this.state.Contact,this.state.isDirty);
+        ModalManager.close();
     }
     render(){
         const {onRequestClose,Contact,language} = this.props;

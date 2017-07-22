@@ -4,7 +4,10 @@
   "description": "a web application for use by therapist to give patients home work and track their progress, based on Cory House react redux starter template",
   "scripts": {
     "dev": "node node_modules/babel-cli/bin/babel-node.js tools/srcServer.js",
-    "prestart": "npm-run-all clean-dist test lint build:html",
+    "clean-dist": "npm run remove-dist && mkdir dist",
+    "remove-dist": "node_modules/.bin/rimraf ./dist",
+    "build:html": "node node_modules/babel-cli/bin/babel-node.js tools/buildHtml.js",
+    "prestart": "npm-run-all clean-dist build:html",
     "start": "node node_modules/babel-cli/bin/babel-node.js tools/build.js",
     "poststart": "node node_modules/babel-cli/bin/babel-node.js tools/distServer.js"
   },
