@@ -24,26 +24,53 @@ function UpdateContactsSuccess(contact,id){
 function UpdateContactsError(){
     return {type:types.UPDATE_CONTACT_ERROR};
 }
+
 export function loadContacts(){
     return function(dispatch) {
     dispatch(LoadContactsRequest());
-    return contactsApi.getAllContacts().then(contacts => {
-      dispatch(LoadContactsSuccess(contacts,Math.random()));
-    }).catch(error => {
-      throw(error);
-    });
-  };
+    return fetch('/api/AllContacts',{method:'GET'}).then(response =>
+          response.json().then(
+            contacts => ({ contacts, response }))
+              ).then(({ contacts, response }) =>  {
+                if(response.status===200){
+                    dispatch(LoadContactsSuccess(contacts.data,Math.random));
+                }else{
+                    dispatch(LoadContactsError(response.status.toString()));//does nothing at the moment
+                }
+          });
+    };
 }
 
 export function updateContacts(contact){
     return function(dispatch) {
-        return contactsApi.saveContact(contact).then(contactRes=>{
-            if(contact.id)
-                dispatch(UpdateContactsSuccess(contactRes,Math.random()));
-            else
-                dispatch(CreateContactsSuccess(contactRes,Math.random()));
-        }).catch(error => {
-            throw(error);
-        });
+        const config = {
+            method: 'POST',
+            headers: { 'Content-Type':'application/x-www-form-urlencoded'},
+            body:`contact=${JSON.stringify(contact)}`
+        };
+        return fetch('/api/updateContact',config).then(response =>
+          response.json().then(
+            contacts => ({ contacts, response }))
+              ).then(({ contacts, response }) =>  {
+                if(response.status===200){
+                    if(contact.id){
+                        dispatch(UpdateContactsSuccess(contact,Math.random));    
+                    }else{
+                        contact.id = contacts[0].NewId;
+                        dispatch(CreateContactsSuccess(contact,Math.random()));
+                    }
+                }else{
+                    dispatch(UpdateContactsError(response.status.toString()));//does nothing at the moment
+                }
+          });
+
+        // return contactsApi.saveContact(contact).then(contactRes=>{
+        //     if(contact.id)
+        //         dispatch(UpdateContactsSuccess(contactRes,Math.random()));
+        //     else
+        //         dispatch(UpdateContactsSuccess(contactRes,Math.random()));
+        // }).catch(error => {
+        //     throw(error);
+        // });
     };
 }

@@ -38,7 +38,7 @@ function executeStatement(query,callback) {
 }
 
 router.get('/AllContacts',function(req,res){
-    executeStatement("SELECT * FROM Contacts",function(err,data){
+    executeStatement("SELECT * FROM Contacts ORDER BY firstName ",function(err,data){
         try{
             if(err)
                 res.json({err});
@@ -47,6 +47,49 @@ router.get('/AllContacts',function(req,res){
             }
         }catch(err){
             res.json(err);
+        }
+    });
+});
+
+router.post('/updateContact',function(req,res){
+    if(!req.body.contact){
+        res.json({error:"no body attached"});
+    }
+    let contact = JSON.parse(req.body.contact);
+    let q =``;
+    if(contact.id){
+        //do update
+        q=` UPDATE [dbo].[Contacts]
+            SET [firstName] = '${contact.firstName?contact.firstName:null}'
+                ,[lastName] = '${contact.lastName?contact.lastName:null}'
+                ,[Email] = '${contact.Email?contact.Email:null}'
+                ,[HomePhonenumber] = '${contact.HomePhonenumber?contact.HomePhonenumber:null}'
+                ,[WorkPhoneNumber] = '${contact.WorkPhoneNumber?contact.WorkPhoneNumber:null}'
+            WHERE id=${contact.id}`;
+    }else{
+        //do create
+        q=`DECLARE @MyTableVar table( NewId int);
+            INSERT INTO [dbo].[Contacts]
+                ([firstName]
+                ,[lastName]
+                ,[Email] 
+                ,[HomePhonenumber]
+                ,[WorkPhoneNumber])
+                    OUTPUT INSERTED.id INTO @MyTableVar
+                    VALUES(
+                        '${contact.firstName?contact.firstName:null}',
+                        '${contact.lastName?contact.lastName:null}',
+                        '${contact.Email?contact.Email:null}',
+                        '${contact.HomePhonenumber?contact.HomePhonenumber:null}',
+                        '${contact.WorkPhoneNumber?contact.WorkPhoneNumber:null}'
+                    );SELECT * FROM @MyTableVar`;
+    }
+    executeStatement(q,(err,data)=>{
+        if(err){
+            res.json({err});
+        }
+        else{
+            res.json(data);
         }
     });
 });
