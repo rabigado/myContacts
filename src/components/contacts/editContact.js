@@ -25,6 +25,18 @@ class EditContactModal extends React.Component{
     validate(){
         let errors={};
         let valid=true;
+        if(this.state.Contact.firstName !=undefined && !this.state.Contact.firstName.length){
+            errors.firstName = 'Must fill first name';
+            valid=false;
+        }else{
+            errors.firstName=null;
+        }
+        if(this.state.Contact.lastName!=undefined && !this.state.Contact.lastName.length){
+            errors.lastName = 'Must fill last name';
+            valid=false;
+        }else{
+            errors.lastName=null;
+        }
         if(this.state.Contact.Email && this.state.Contact.Email.length && !/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(this.state.Contact.Email)){
             errors.Email='please enter valid email';
             valid=false;

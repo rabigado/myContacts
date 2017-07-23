@@ -48,7 +48,7 @@
     "redux-thunk": "2.0.1",
     "serve-static": "^1.12.3",
     "tedious": "^2.0.0",
-    "toastr": "2.1.2"
+    "toastr": "^2.1.2"
   },
   "devDependencies": {
     "babel-eslint": "^7.2.3",

@@ -153,7 +153,7 @@ class DynamicTable extends React.Component {
     }
     
     filterData(event){
-        let items = Object.assign({},this.state.body);
+        let items = Object.assign({},this.props.data.formatedData);
         items = _.filter(items,function(item){   
             for (let key in item) {
                 if (item.hasOwnProperty(key)) {

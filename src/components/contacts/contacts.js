@@ -6,7 +6,7 @@ import {cellTypeEnum} from '../common/constants';
 import EditContactModal from './editContact';
 import {ModalManager,Effect} from 'react-dynamic-modal';
 import RoundButton from '../common/roundButton';
-
+import toastr from 'toastr';
 class Contacts extends React.Component {
     constructor(props, context) {
         super(props, context);
@@ -32,7 +32,14 @@ class Contacts extends React.Component {
 
     onsubmitHandler(item,hasChanged){
         if(hasChanged){
-            this.props.updateSaveContact(item);
+            toastr.info('request sent');
+            this.props.updateSaveContact(item).then((r)=>{
+                if(r.success){
+                    toastr.info('Contact list updated');
+                }else{
+                    toastr.info('Somthing went wrong');
+                }
+            });
         }
     }
     renderTableData(data){

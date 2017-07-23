@@ -59,8 +59,10 @@ export function updateContacts(contact){
                         contact.id = contacts[0].NewId;
                         dispatch(CreateContactsSuccess(contact,Math.random()));
                     }
+                    return Promise.resolve({success:true});
                 }else{
                     dispatch(UpdateContactsError(response.status.toString()));//does nothing at the moment
+                    return Promise.resolve({success:false});
                 }
           });
           
