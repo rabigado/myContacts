@@ -20,6 +20,7 @@ class Contacts extends React.Component {
     handleBtnClick(itemid){
         this.openCreateEditModal(Object.assign({},this.props.contacts.Contacts[_.findIndex(this.props.contacts.Contacts,{id:itemid})]));
     }
+    
     deleteRecord(itemid){
         let itemToDelete = Object.assign({},this.props.contacts.Contacts[_.findIndex(this.props.contacts.Contacts,{id:itemid})]);
         if(confirm(`Do you want to delete ${itemToDelete.firstName} record? this cannot be undone`)){

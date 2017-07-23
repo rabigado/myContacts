@@ -17,6 +17,8 @@ export default function ContactReducer(state = initialState.Contacts, action) {
       case types.CREATE_CONTACT_SUCCESS:
         return Object.assign({},state,
           {id:action.id,Contacts:[...state.Contacts,action.contact].sort(function(a,b) {return (a.firstName.toLowerCase().localeCompare(b.firstName.toLowerCase()));})});
+      case types.DELETE_CONTACT_SUCCESS:
+          return Object.assign({},state,{Contacts:state.Contacts.filter(item=>item.id !== action.contact)});
     default:
       return state;
   }

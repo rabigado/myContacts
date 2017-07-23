@@ -50,7 +50,23 @@ router.get('/AllContacts',function(req,res){
         }
     });
 });
+router.post('/deleteContact',function(req,res){
+    if(!req.body.contact){
+        res.status(500).send({error:'no contact sent'});
+    }
+    let contact = parseInt(req.body.contact);
+    let q = `DELETE FROM [dbo].[Contacts]
+                WHERE id=${contact}`;
+    executeStatement(q,(err,data)=>{
+        if(err){
+            res.json({err});
+        }
+        else{
+            res.status(200).send({data});
+        }
+    });
 
+});
 router.post('/updateContact',function(req,res){
     if(!req.body.contact){
         res.json({error:"no body attached"});

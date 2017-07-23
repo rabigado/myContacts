@@ -17,7 +17,9 @@ function LoadContactsError(contacts){
 function CreateContactsSuccess(contact,id){
     return {type:types.CREATE_CONTACT_SUCCESS,contact,id};
 }
-
+function deleteContactSuccess(contact,id){
+    return{type:types.DELETE_CONTACT_SUCCESS,contact};
+}
 function UpdateContactsSuccess(contact,id){
         return {type:types.UPDATE_CONTACT_SUCCESS,contact,id};        
 }
@@ -40,7 +42,25 @@ export function loadContacts(){
           });
     };
 }
-
+export function deleteContact(contactId){
+    return function(dispatch) {
+        const config = {
+            method: 'POST',
+            headers: { 'Content-Type':'application/x-www-form-urlencoded'},
+            body:`contact=${contactId}`
+        };
+        return fetch('/api/deleteContact',config).then(response =>
+          response.json().then(
+            contact => ({ contact, response }))
+              ).then(({ contact, response }) =>  {
+                if(response.status===200){
+                    dispatch(deleteContactSuccess(contactId,Math.random));
+                }
+                    return Promise.resolve({success:response.status===200});
+               });
+          
+    };
+}
 export function updateContacts(contact){
     return function(dispatch) {
         const config = {

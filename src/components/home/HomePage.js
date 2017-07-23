@@ -29,7 +29,13 @@ class HomePage extends React.Component {
   }
   
   deleteContact(contact){
-    //TODO: delete contact
+    this.props.actions.deleteContact(contact).then((result)=>{
+      if(result.success){
+        toastr.success('record deleted');
+      }else{
+        toastr.error('Somthing went wrong');
+      }
+    });
   }
 
   render() {
