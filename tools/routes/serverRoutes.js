@@ -60,11 +60,11 @@ router.post('/updateContact',function(req,res){
     if(contact.id){
         //do update
         q=` UPDATE [dbo].[Contacts]
-            SET [firstName] = '${contact.firstName?contact.firstName:null}'
-                ,[lastName] = '${contact.lastName?contact.lastName:null}'
-                ,[Email] = '${contact.Email?contact.Email:null}'
-                ,[HomePhonenumber] = '${contact.HomePhonenumber?contact.HomePhonenumber:null}'
-                ,[WorkPhoneNumber] = '${contact.WorkPhoneNumber?contact.WorkPhoneNumber:null}'
+            SET [firstName] = '${contact.firstName?contact.firstName:''}'
+                ,[lastName] = '${contact.lastName?contact.lastName:''}'
+                ,[Email] = '${contact.Email?contact.Email:''}'
+                ,[HomePhonenumber] = '${contact.HomePhonenumber?contact.HomePhonenumber:''}'
+                ,[WorkPhoneNumber] = '${contact.WorkPhoneNumber?contact.WorkPhoneNumber:''}'
             WHERE id=${contact.id}`;
     }else{
         //do create
@@ -77,11 +77,11 @@ router.post('/updateContact',function(req,res){
                 ,[WorkPhoneNumber])
                     OUTPUT INSERTED.id INTO @MyTableVar
                     VALUES(
-                        '${contact.firstName?contact.firstName:null}',
-                        '${contact.lastName?contact.lastName:null}',
-                        '${contact.Email?contact.Email:null}',
-                        '${contact.HomePhonenumber?contact.HomePhonenumber:null}',
-                        '${contact.WorkPhoneNumber?contact.WorkPhoneNumber:null}'
+                        '${contact.firstName?contact.firstName:''}',
+                        '${contact.lastName?contact.lastName:''}',
+                        '${contact.Email?contact.Email:''}',
+                        '${contact.HomePhonenumber?contact.HomePhonenumber:''}',
+                        '${contact.WorkPhoneNumber?contact.WorkPhoneNumber:''}'
                     );SELECT * FROM @MyTableVar`;
     }
     executeStatement(q,(err,data)=>{

@@ -6,10 +6,12 @@ import * as ContactsActions from '../../actions/ContactsActions';
 import {bindActionCreators} from 'redux';
 import Contacts from '../contacts/contacts';
 import Loading from '../common/loading';
+import toastr from 'toastr';
 class HomePage extends React.Component {
   constructor(props, context) {
     super(props, context);
     this.updateSaveContact=this.updateSaveContact.bind(this);
+    this.deleteContact = this.deleteContact.bind(this);
   }
 
     componentWillMount(){
@@ -17,9 +19,18 @@ class HomePage extends React.Component {
   } 
   
   updateSaveContact(contact){
-    this.props.actions.updateContacts(contact);
+    this.props.actions.updateContacts(contact).then((r)=>{
+                if(r.success){
+                    toastr.success('Contact list updated');
+                }else{
+                    toastr.error('Somthing went wrong');
+                }
+            });
   }
-
+  
+  deleteContact(contact){
+    //TODO: delete contact
+  }
 
   render() {
     const {language,contacts} = this.props;
@@ -36,7 +47,7 @@ class HomePage extends React.Component {
           <br/>
         </div>
         <div className="container">
-            {contacts.loading?<Loading />:<Contacts updateSaveContact={this.updateSaveContact} language={language} contacts={contacts.Contacts}/>}
+            {contacts.loading?<Loading />:<Contacts  deleteRecord={this.deleteContact} updateSaveContact={this.updateSaveContact} language={language} contacts={contacts.Contacts}/>}
         </div>  
       </div>
     );

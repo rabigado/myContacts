@@ -109,9 +109,15 @@ class DynamicTable extends React.Component {
                                 return (<td className="" key={Math.random().toString(36).substring(5)}><b>{p[k].text}</b> </td>);
                             case cellTypeEnum.TEXT:
                                 return (<td className="" key={Math.random().toString(36).substring(5)}>{p[k].text} </td>);
+                            
                             case cellTypeEnum.EDITBUTTON:
                                         return (<td className="" key={Math.random().toString(36).substring(5)}>
-                                                    <button onClick={this.btnHandler.bind(this,p[k].id||"error")} className="btn btn-primary btn-block">  <span className="glyphicon glyphicon-edit"></span>  </button> 
+                                                    <button onClick={this.btnHandler.bind(this,p[k].id||"error",'edit')} className="btn btn-primary btn-block">  <span className="glyphicon glyphicon-edit"></span>  </button> 
+                                                </td>);
+                            case cellTypeEnum.DELETEBUTTON:
+                             return (<td className="" key={Math.random().toString(36).substring(5)}>
+                                                    <button onClick={this.btnHandler.bind(this,p[k].id||"error",'delete')} className="btn btn-primary btn-block">  
+                                                        <span className="glyphicon glyphicon-trash"></span></button> 
                                                 </td>);
                             case cellTypeEnum.BUTTON:
                                 return (<td className="" key={Math.random().toString(36).substring(5)}>
@@ -131,8 +137,18 @@ class DynamicTable extends React.Component {
         this.setState({listLength:arr.length,bodyFromatted:list});
     }
 
-    btnHandler(itemId){
-        this.props.handleBtnClick(itemId);
+    btnHandler(itemId,actionType){
+        switch(actionType){
+            case 'delete':
+                this.props.handleDeleteBtnClick?this.props.handleDeleteBtnClick(itemId):this.props.handleBtnClick(itemId);
+                return;
+            case 'edit':
+                this.props.handleEditBtnClick?this.props.handleDeleteBtnClick(itemId):this.props.handleBtnClick(itemId);
+                return;
+            default:
+                this.props.handleBtnClick(itemId);
+        }
+        
     }
 
     setPagination(page){
@@ -202,7 +218,10 @@ DynamicTable.propTypes = {
     searchable:PropTypes.bool,
     data:PropTypes.object.isRequired,
     itemPerPage:PropTypes.number,
-    listId:PropTypes.number//optional in order to quickly determin if changes were made and format data should be called again
+    listId:PropTypes.number,//optional in order to quickly determin if changes were made and format data should be called again
+    handleDeleteBtnClick:PropTypes.func,
+    handleEditBtnClick:PropTypes.func
+
 };
 
 export default DynamicTable;
