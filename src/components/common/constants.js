@@ -1,1 +1,1 @@
-export const cellTypeEnum = {TEXT:"Text",LINK:"LINK",BUTTON:"BUTTON",HEADER:"HEADER"};
+export const cellTypeEnum = {TEXT:"Text",LINK:"LINK",BUTTON:"BUTTON",HEADER:"HEADER",EDITBUTTON:"EDITBUTTON"};

@@ -13,7 +13,7 @@ export default function ContactReducer(state = initialState.Contacts, action) {
             return Object.assign({},item,action.contact);
           }
           return item;
-        })});
+        }).sort(function(a,b) {return (a.firstName.toLowerCase().localeCompare(b.firstName.toLowerCase()));})});
       case types.CREATE_CONTACT_SUCCESS:
         return Object.assign({},state,
           {id:action.id,Contacts:[...state.Contacts,action.contact].sort(function(a,b) {return (a.firstName.toLowerCase().localeCompare(b.firstName.toLowerCase()));})});

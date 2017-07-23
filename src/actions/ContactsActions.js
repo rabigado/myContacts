@@ -33,7 +33,7 @@ export function loadContacts(){
             contacts => ({ contacts, response }))
               ).then(({ contacts, response }) =>  {
                 if(response.status===200){
-                    dispatch(LoadContactsSuccess(contacts.data,Math.random));
+                    dispatch(LoadContactsSuccess(contacts.data,Math.random()));
                 }else{
                     dispatch(LoadContactsError(response.status.toString()));//does nothing at the moment
                 }
@@ -54,7 +54,7 @@ export function updateContacts(contact){
               ).then(({ contacts, response }) =>  {
                 if(response.status===200){
                     if(contact.id){
-                        dispatch(UpdateContactsSuccess(contact,Math.random));    
+                        dispatch(UpdateContactsSuccess(contact,Math.random()));    
                     }else{
                         contact.id = contacts[0].NewId;
                         dispatch(CreateContactsSuccess(contact,Math.random()));
@@ -63,14 +63,6 @@ export function updateContacts(contact){
                     dispatch(UpdateContactsError(response.status.toString()));//does nothing at the moment
                 }
           });
-
-        // return contactsApi.saveContact(contact).then(contactRes=>{
-        //     if(contact.id)
-        //         dispatch(UpdateContactsSuccess(contactRes,Math.random()));
-        //     else
-        //         dispatch(UpdateContactsSuccess(contactRes,Math.random()));
-        // }).catch(error => {
-        //     throw(error);
-        // });
+          
     };
 }

@@ -8,9 +8,6 @@ class App extends React.Component {
     return (
       this.props.locale?<div className="container-fluid">
         <Header
-          loading={this.props.loading}
-          navbar={this.props.navbar}
-          auth = {this.props.auth}
           locale ={this.props.locale}
         />
         {this.props.children}
@@ -21,9 +18,6 @@ class App extends React.Component {
 
 App.propTypes = {
   children: PropTypes.object.isRequired,
-  loading: PropTypes.bool.isRequired,
-  navbar: PropTypes.object.isRequired,
-  auth: PropTypes.object.isRequired,
   locale:PropTypes.object.isRequired
 };
 

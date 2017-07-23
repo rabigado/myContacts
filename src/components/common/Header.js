@@ -18,7 +18,7 @@ class Header extends React.Component {
   }
 
   render(){
-    const {navbar,locale} = this.props;
+    const {locale} = this.props;
 
     return(
       <nav className="navbar navbar-inverse">
@@ -47,9 +47,6 @@ class Header extends React.Component {
 }
 
 Header.propTypes = {
-  loading: PropTypes.bool.isRequired,
-  navbar: PropTypes.object.isRequired,
-  
   locale: PropTypes.object.isRequired,
   actions: PropTypes.object.isRequired
 };

@@ -10,12 +10,9 @@ import RoundButton from '../common/roundButton';
 class Contacts extends React.Component {
     constructor(props, context) {
         super(props, context);
-        this.state={
-            dictonary : props.language.dictonary
-        };
         this.onsubmitHandler = this.onsubmitHandler.bind(this);
         this.handleBtnClick = this.handleBtnClick.bind(this);
-        
+        this.renderTableData = this.renderTableData.bind(this);
         this.openCreateEditModal = this.openCreateEditModal.bind(this);
     }
 
@@ -39,20 +36,21 @@ class Contacts extends React.Component {
         }
     }
     renderTableData(data){
-        const {dictonary} = this.state;
-        const header = [{'id':1,1:{text:dictonary.strContactFullName,type:cellTypeEnum.HEADER},
-            2:{text:  dictonary.strHomePhone  , type:cellTypeEnum.HEADER},
-            3:{text:dictonary.strWorkPhone, type:cellTypeEnum.HEADER},
-            4:{text:dictonary.strEmail, type:cellTypeEnum.HEADER},
-            5:{text:dictonary.strEdit, type:cellTypeEnum.HEADER}}];
-        const formatedData = _.map(data,function(item){
+        
+        const header = [{'id':1,1:{text:this.props.language.dictonary.strContactFullName,type:cellTypeEnum.HEADER},
+            2:{text:  this.props.language.dictonary.strHomePhone  , type:cellTypeEnum.HEADER},
+            3:{text:this.props.language.dictonary.strWorkPhone, type:cellTypeEnum.HEADER},
+            4:{text:this.props.language.dictonary.strEmail, type:cellTypeEnum.HEADER},
+            5:{text:this.props.language.dictonary.strEdit, type:cellTypeEnum.HEADER}}];
+        const self = this;
+            const formatedData = _.map(data,function(item){
             return{
                 id:item.id,
                 1:{text:item.firstName+' '+item.lastName, type:cellTypeEnum.TEXT},
                 2:{text:item.HomePhonenumber, type:cellTypeEnum.TEXT},
                 3:{text:item.WorkPhoneNumber, type:cellTypeEnum.TEXT},
                 4:{text:item.Email, type:cellTypeEnum.TEXT},
-                5:{text:dictonary.strEdit,id:item.id,type:cellTypeEnum.BUTTON}
+                5:{text:self.props.language.dictonary.strEdit,id:item.id,type:cellTypeEnum.EDITBUTTON}
             };
         });
         return {header:header,formatedData:formatedData};

@@ -36,6 +36,9 @@ class DynamicTable extends React.Component {
     }
 
     componentDidUpdate(prevProps,prevState){
+        if(this.props.data.header !== prevProps.data.header){
+            this.formatHeader(this.props.data.header);
+        }
         if(this.state.currentPage!=prevState.currentPage){
             this.formatData(this.props.data.formatedData);
             return;
@@ -65,20 +68,26 @@ class DynamicTable extends React.Component {
         let header = headerToFormat && headerToFormat.map( h=>{
                 return(
                     <thead key={h.id}>
+                        <tr>
                         {Object.keys(h).filter(k => k !== 'id').map(k => {
                                 switch(h[k].type){
                                     case cellTypeEnum.HEADER:
-                                        return (<td className="" key={Math.random().toString(36).substring(5)}><b>{h[k].text}</b> </td>);
+                                        return (<th className="" key={Math.random().toString(36).substring(5)}><b>{h[k].text}</b> </th>);
                                     case cellTypeEnum.TEXT:
-                                        return (<td className="" key={Math.random().toString(36).substring(5)}>{p[k].text} </td>);
+                                        return (<th className="" key={Math.random().toString(36).substring(5)}>{h[k].text} </th>);
+                                    case cellTypeEnum.EDITBUTTON:
+                                        return (<th className="" key={Math.random().toString(36).substring(5)}>
+                                                    <button onClick={this.btnHandler.bind(this,h[k].id||"error")} className="btn btn-primary btn-block">  <span className="glyphicon glyphicon-edit"></span>  </button> 
+                                                </th>);
                                     case cellTypeEnum.BUTTON:
-                                        return (<td className="" key={Math.random().toString(36).substring(5)}>
+                                        return (<th className="" key={Math.random().toString(36).substring(5)}>
                                                     <button onClick={this.btnHandler.bind(this,h[k].id||"error")} className="btn btn-primary btn-block"> {h[k].text} </button> 
-                                                </td>);
+                                                </th>);
                                     case cellTypeEnum.LINK:
-                                        return (<td className="" key={Math.random().toString(36).substring(5)}><Link to={h[k].href} className=""  activeClassName="active">{h[k].text}</Link> </td>);
+                                        return (<th className="" key={Math.random().toString(36).substring(5)}><Link to={h[k].href} className=""  activeClassName="active">{h[k].text}</Link> </th>);
                                 }
-                        })}       
+                        })} 
+                        </tr>      
                     </thead>
                 );
             });
@@ -100,6 +109,10 @@ class DynamicTable extends React.Component {
                                 return (<td className="" key={Math.random().toString(36).substring(5)}><b>{p[k].text}</b> </td>);
                             case cellTypeEnum.TEXT:
                                 return (<td className="" key={Math.random().toString(36).substring(5)}>{p[k].text} </td>);
+                            case cellTypeEnum.EDITBUTTON:
+                                        return (<td className="" key={Math.random().toString(36).substring(5)}>
+                                                    <button onClick={this.btnHandler.bind(this,p[k].id||"error")} className="btn btn-primary btn-block">  <span className="glyphicon glyphicon-edit"></span>  </button> 
+                                                </td>);
                             case cellTypeEnum.BUTTON:
                                 return (<td className="" key={Math.random().toString(36).substring(5)}>
                                             <button onClick={this.btnHandler.bind(this,p[k].id||"error")} className="btn btn-primary btn-block"> {p[k].text} </button> 
@@ -187,7 +200,7 @@ DynamicTable.propTypes = {
     handleBtnClick:PropTypes.func.isRequired,
     pagination:PropTypes.bool,
     searchable:PropTypes.bool,
-    data:PropTypes.array.isRequired,
+    data:PropTypes.object.isRequired,
     itemPerPage:PropTypes.number,
     listId:PropTypes.number//optional in order to quickly determin if changes were made and format data should be called again
 };
