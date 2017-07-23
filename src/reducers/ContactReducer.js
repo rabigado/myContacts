@@ -15,8 +15,8 @@ export default function ContactReducer(state = initialState.Contacts, action) {
           return item;
         })});
       case types.CREATE_CONTACT_SUCCESS:
-        return Object.assign({},state,{id:action.id,Contacts:[...state.Contacts,action.contact].sort((a,b)=>{a.firstName.toLowerCase() < b.firstName.toLowerCase()?-1:1;})});
-
+        return Object.assign({},state,
+          {id:action.id,Contacts:[...state.Contacts,action.contact].sort(function(a,b) {return (a.firstName.toLowerCase().localeCompare(b.firstName.toLowerCase()));})});
     default:
       return state;
   }

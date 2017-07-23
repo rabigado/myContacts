@@ -64,7 +64,7 @@ class Contacts extends React.Component {
             <div>
                 <DynamicTable searchable={true} pagination={true} data={data} listId={this.props.contacts.id} handleBtnClick={this.handleBtnClick}/>
                 <hr/>
-                <RoundButton handleClick={this.openCreateEditModal}/>
+                <RoundButton handleClick={this.openCreateEditModal.bind(null,{})}/>
             </div>
         );
     }
