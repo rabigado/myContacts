@@ -70,7 +70,6 @@ function mapDispatchToProps(dispatch) {
 const NavBrand = ({linkTo,text}) => {  
     return (     
       <Link to={linkTo} className="navbar-brand"  activeClassName="active">{text}</Link>
-      //<a className="navbar-brand" href={this.props.linkTo}>{this.props.text}</a>
     ); 
 };
 NavBrand.propTypes = {

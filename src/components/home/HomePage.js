@@ -37,7 +37,7 @@ class HomePage extends React.Component {
       }
     });
   }
-
+  //language is an item containg keys for the static web display to be shown at a selected language explore more on LanguageApi.js
   render() {
     const {language,contacts} = this.props;
 

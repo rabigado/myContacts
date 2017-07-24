@@ -7,6 +7,9 @@ import EditContactModal from './editContact';
 import {ModalManager,Effect} from 'react-dynamic-modal';
 import RoundButton from '../common/roundButton';
 import toastr from 'toastr';
+/**
+ * containr component for the contacts page
+ */
 class Contacts extends React.Component {
     constructor(props, context) {
         super(props, context);
@@ -20,13 +23,14 @@ class Contacts extends React.Component {
     handleBtnClick(itemid){
         this.openCreateEditModal(Object.assign({},this.props.contacts.Contacts[_.findIndex(this.props.contacts.Contacts,{id:itemid})]));
     }
-    
+
     deleteRecord(itemid){
         let itemToDelete = Object.assign({},this.props.contacts.Contacts[_.findIndex(this.props.contacts.Contacts,{id:itemid})]);
         if(confirm(`Do you want to delete ${itemToDelete.firstName} record? this cannot be undone`)){
             this.props.deleteRecord(itemid);
         }
     }
+
     openCreateEditModal(Contact){
         ModalManager.open(<EditContactModal 
         
@@ -43,6 +47,12 @@ class Contacts extends React.Component {
             this.props.updateSaveContact(item);
         }
     }
+    /**
+     * builds the data for the dynamic table component, recives an array as the data then formats a header
+     * and the data to the correct way so the dynamic table can use it.
+     * return an object of a form: {header:header for the table,formattedData: data for the table}
+     * @param {array of objects} data 
+     */
     renderTableData(data){
         
         const header = [{'id':1,1:{text:this.props.language.dictonary.strContactFullName,type:cellTypeEnum.HEADER},

@@ -4,7 +4,13 @@ import {cellTypeEnum} from './constants';
 import Pagination from './Pagination';
 import _ from 'lodash';
 import $ from 'jquery';
-
+/**
+ * this component builds a dynamic table it recives header and body
+ * formatted for this component
+ * the data also explain each cell which type it is(text,header,link,button,delete button, edit button)
+ * the table supports searching and pagination if required.
+ * the data can contain a key to determin if any changes were made, in order not to compare 2 list for changes when there is an update.
+ */
 class DynamicTable extends React.Component {
      constructor(props){
         super(props);
@@ -64,6 +70,9 @@ class DynamicTable extends React.Component {
         }
 
     }
+    /**
+     * format the data recived in the header for the table to be drawn
+     */
     formatHeader(headerToFormat){
         let header = headerToFormat && headerToFormat.map( h=>{
                 return(
@@ -93,6 +102,9 @@ class DynamicTable extends React.Component {
             });
             this.setState({headerFormatted:header});
     }
+    /**
+     * format the data recived in the Body for the table data to be shown
+     */
     formatData(arr){
         let chunkedList =[];
         if(this.props.pagination){
@@ -136,7 +148,12 @@ class DynamicTable extends React.Component {
         });
         this.setState({listLength:arr.length,bodyFromatted:list});
     }
-
+    /**
+     * the function will call the correct handler for a button pressed
+     * or the default if no special handler was passed.
+     * @param {*} itemId item for the button action
+     * @param {*} actionType delete or edit
+     */
     btnHandler(itemId,actionType){
         switch(actionType){
             case 'delete':
@@ -167,7 +184,10 @@ class DynamicTable extends React.Component {
                 this.setState({currentPage:page});
         }
     }
-    
+    /*
+     * this function will filter the shown results for contacts by going over the data
+     * and filtering each node that has a text column.
+     */
     filterData(event){
         let items = Object.assign({},this.props.data.formatedData);
         items = _.filter(items,function(item){   

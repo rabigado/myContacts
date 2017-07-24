@@ -6,7 +6,8 @@ const TYPES = require('tedious').TYPES;
 const {Connection} =require('tedious');
 
 const router = express.Router();
-
+//main function to use in order to get data from the app sql db
+//which sits on azure.
 function executeStatement(query,callback) {  
     let connection = new Connection(config.database);//start connection
     connection.on('connect', function(err) {
@@ -51,7 +52,7 @@ router.get('/AllContacts',function(req,res){
     });
 });
 router.post('/deleteContact',function(req,res){
-    if(!req.body.contact){
+    if(!req.body.contact){//test correct data
         res.status(500).send({error:'no contact sent'});
     }
     let contact = parseInt(req.body.contact);
@@ -108,10 +109,6 @@ router.post('/updateContact',function(req,res){
             res.json(data);
         }
     });
-});
-
-router.get('/', function(req, res) {
-    res.json({ message: 'hooray! welcome to our api!' });   
 });
 
 

@@ -1,7 +1,7 @@
 import React,{Component,PropTypes} from 'react';
 import { Modal,ModalManager,Effect} from 'react-dynamic-modal';
 import TextInput from '../common/TextInput';
-
+//popup component to edit and create contacts
 class EditContactModal extends React.Component{
     constructor(props, context) {
         super(props, context);
@@ -22,6 +22,7 @@ class EditContactModal extends React.Component{
         this.setState({isDirty:true, Contact:Object.assign({},this.state.Contact,contact)},()=>this.validate());
         
     }
+    //test the input and give proper warnings
     validate(){
         let errors={};
         let valid=true;
@@ -57,6 +58,7 @@ class EditContactModal extends React.Component{
         }
         this.setState({valid:valid,errors:errors});
     }
+    //will send update only when the state is valid.
     handleSubmit(){
         if(this.state.valid)    
             this.props.onsubmitHandler(this.state.Contact,this.state.isDirty);
