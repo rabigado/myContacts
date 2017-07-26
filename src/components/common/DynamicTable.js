@@ -62,7 +62,7 @@ class DynamicTable extends React.Component {
                 return;//no changes were made.
             }
 
-        for(let i = 0; i<this.props.data.formatData.length;i++){
+        for(let i = 0; i<this.props.data.formatedData.length;i++){
             if(this.props.data.formatData[i]!==prevProps.formatData[i]){
                 this.formatData(this.props.data.formatedData);
                 break;
